@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>the5fire-backbone-view</title>
+</head>
+<body>
+    <ul>Start Here</ul>
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="http://www.css88.com/doc/underscore1.8.2/underscore.js"></script>
+<script src="http://www.css88.com/doc/backbone/backbone.js"></script>
+<script>
+var testModel = Backbone.Model.extend({
+    defaults: {
+        field: ""
+    },
+    updateDiv: function(){
+        this.set({field: $('input').val()}) 
+    }
+})
+
+var testView = Backbone.View.extend({
+  events:  { "change input": "updateDiv" },
+  updateDiv: function(){
+    this.model.updateDiv();
+  },
+  initialize: function(){
+    this.render();
+    this.model.on('change', this.render, this);
+  },
+  render: function(){
+    this.$el.html('<input type="text" value =' + this.model.get('field') + '> <div>' + this.model.get('field') +'</div>');
+  }
+});
+$('ul').append('<div></div>');
+
+var m = new testModel();
+var v = new testView({model: m});
+//view.render();
+$('div').html(v.el);
+</script>
+</body>
+</html>
