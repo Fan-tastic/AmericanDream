@@ -10,34 +10,27 @@
 <script src="http://www.css88.com/doc/underscore1.8.2/underscore.js"></script>
 <script src="http://www.css88.com/doc/backbone/backbone.js"></script>
 <script>
-var testModel = Backbone.Model.extend({
-    defaults: {
-        field: ""
-    },
-    updateDiv: function(){
-        this.set({field: $('input').val()}) 
-    }
-})
+var testModel = Backbone.Model.extend({});
 
 var testView = Backbone.View.extend({
-  events:  { "change input": "updateDiv" },
+  events:  { 
+      'change input' : "updateDiv" 
+  },  
   updateDiv: function(){
-    this.model.updateDiv();
-  },
+    this.model.set({field: $('input').val()});
+  },   
   initialize: function(){
     this.render();
     this.model.on('change', this.render, this);
-  },
+  },   
   render: function(){
     this.$el.html('<input type="text" value =' + this.model.get('field') + '> <div>' + this.model.get('field') +'</div>');
   }
 });
-$('ul').append('<div></div>');
 
-var m = new testModel();
+var m = new testModel({field:""});
 var v = new testView({model: m});
-//view.render();
-$('div').html(v.el);
+$('ul').append(v.el);
 </script>
 </body>
 </html>
